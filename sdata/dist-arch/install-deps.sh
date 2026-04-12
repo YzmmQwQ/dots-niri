@@ -91,7 +91,12 @@ install-local-pkgbuild() {
 
 # Install core dependencies from the meta-packages
 metapkgs=(./sdata/dist-arch/illogical-impulse-{audio,backlight,basic,fonts-themes,kde,portal,python,screencapture,toolkit,widgets})
-metapkgs+=(./sdata/dist-arch/illogical-impulse-hyprland)
+# Install Hyprland or Niri based on user choice
+if [[ "${WITH_NIRI}" == true ]]; then
+  metapkgs+=(./sdata/dist-arch/illogical-impulse-niri)
+else
+  metapkgs+=(./sdata/dist-arch/illogical-impulse-hyprland)
+fi
 metapkgs+=(./sdata/dist-arch/illogical-impulse-microtex-git)
 metapkgs+=(./sdata/dist-arch/illogical-impulse-quickshell-git)
 metapkgs+=(./sdata/dist-arch/illogical-impulse-bibata-modern-classic-bin)

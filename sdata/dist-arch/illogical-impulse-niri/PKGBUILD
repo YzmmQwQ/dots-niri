@@ -1,0 +1,16 @@
+groups=(illogical-impulse)
+pkgname=illogical-impulse-niri
+pkgver=1.0
+pkgrel=1
+pkgdesc='Illogical Impulse Niri related packages'
+arch=(any)
+license=(None)
+depends=(
+  niri
+  wlsunset
+  wl-clipboard
+  grim
+  slurp
+  hypridle
+  hyprlock
+)
