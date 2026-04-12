@@ -1,0 +1,256 @@
+// illogical-impulse Niri keybinds
+// Migrated from Hyprland keybinds.conf
+
+// Variables for apps (same as Hyprland variables.conf)
+// Terminal, browser, etc. are defined here as spawn commands
+
+binds {
+	// ============ Shell / Quickshell ============
+	// Toggle search/launcher
+	Mod+Super_L { spawn "qs" "-c" "ii" "ipc" "call" "searchToggleRelease"; }
+	Mod+Super_R { spawn "qs" "-c" "ii" "ipc" "call" "searchToggleRelease"; }
+
+	// Toggle overview
+	Mod+Tab { spawn "qs" "-c" "ii" "ipc" "call" "overviewWorkspacesToggle"; }
+
+	// Clipboard history
+	Mod+V { spawn "qs" "-c" "ii" "ipc" "call" "overviewClipboardToggle"; }
+
+	// Emoji picker
+	Mod+Period { spawn "qs" "-c" "ii" "ipc" "call" "overviewEmojiToggle"; }
+
+	// Toggle left sidebar
+	Mod+A { spawn "qs" "-c" "ii" "ipc" "call" "sidebarLeftToggle"; }
+
+	// Toggle right sidebar
+	Mod+N { spawn "qs" "-c" "ii" "ipc" "call" "sidebarRightToggle"; }
+
+	// Toggle cheatsheet
+	Mod+Slash { spawn "qs" "-c" "ii" "ipc" "call" "cheatsheetToggle"; }
+
+	// Toggle on-screen keyboard
+	Mod+K { spawn "qs" "-c" "ii" "ipc" "call" "oskToggle"; }
+
+	// Toggle media controls
+	Mod+M { spawn "qs" "-c" "ii" "ipc" "call" "mediaControlsToggle"; }
+
+	// Toggle overlay
+	Mod+G { spawn "qs" "-c" "ii" "ipc" "call" "overlayToggle"; }
+
+	// Toggle session menu
+	Mod+Alt+Delete { spawn "qs" "-c" "ii" "ipc" "call" "sessionToggle"; }
+
+	// Toggle bar
+	Mod+J { spawn "qs" "-c" "ii" "ipc" "call" "barToggle"; }
+
+	// Toggle wallpaper selector
+	Mod+Ctrl+T { spawn "qs" "-c" "ii" "ipc" "call" "wallpaperSelectorToggle"; }
+
+	// Random wallpaper
+	Mod+Alt+Ctrl+T { spawn "qs" "-c" "ii" "ipc" "call" "wallpaperSelectorRandom"; }
+
+	// Restart widgets
+	Mod+Ctrl+R { spawn "bash" "-c" "killall ydotool qs quickshell; qs -c ii &"; }
+
+	// Cycle panel family
+	Mod+Ctrl+P { spawn "qs" "-c" "ii" "ipc" "call" "panelFamily" "cycle"; }
+
+	// ============ Utilities ============
+	// Screen snip / Screenshot region
+	Mod+Shift+S { spawn "qs" "-c" "ii" "ipc" "call" "regionScreenshot"; }
+
+	// Google Lens / Screen search
+	Mod+Shift+A { spawn "qs" "-c" "ii" "ipc" "call" "regionSearch"; }
+
+	// OCR
+	Mod+Shift+X { spawn "qs" "-c" "ii" "ipc" "call" "regionOcr"; }
+
+	// Translate screen
+	Mod+Shift+T { spawn "qs" "-c" "ii" "ipc" "call" "screenTranslate"; }
+
+	// Color picker
+	Mod+Shift+C { spawn "hyprpicker" "-a"; }
+
+	// Record region
+	Mod+Shift+R { spawn "qs" "-c" "ii" "ipc" "call" "regionRecord"; }
+
+	// Fullscreen screenshot
+	Print { spawn "bash" "-c" "grim -o \"$(niri msg --json outputs | jq -r '.[] | select(.is_focused) | .name')\" - | wl-copy"; }
+	Mod+Ctrl+Print { spawn "bash" "-c" "mkdir -p $(xdg-user-dir PICTURES)/Screenshots && grim -o \"$(niri msg --json outputs | jq -r '.[] | select(.is_focused) | .name')\" $(xdg-user-dir PICTURES)/Screenshots/Screenshot_\"$(date '+%Y-%m-%d_%H.%M.%S')\".png"; }
+
+	// ============ Window Management ============
+	// Close window
+	Mod+Q { close-window; }
+	Mod+Alt+F4 { close-window; }
+
+	// Focus navigation (arrow keys)
+	Mod+Left { focus-column-left; }
+	Mod+Right { focus-column-right; }
+	Mod+Up { focus-window-up; }
+	Mod+Down { focus-window-down; }
+
+	// Focus navigation (brackets)
+	Mod+BracketLeft { focus-column-left; }
+	Mod+BracketRight { focus-column-right; }
+
+	// Move window
+	Mod+Shift+Left { move-column-left; }
+	Mod+Shift+Right { move-column-right; }
+	Mod+Shift+Up { move-window-up; }
+	Mod+Shift+Down { move-window-down; }
+
+	// Float/Tile toggle
+	Mod+Alt+Space { toggle-window-floating; }
+
+	// Maximize (fullscreen without hiding bar)
+	Mod+D { maximize-column; }
+
+	// Fullscreen
+	Mod+F { fullscreen-window; }
+
+	// Pin window (floating only in Niri)
+	Mod+P { toggle-window-floating; }
+
+	// Center column
+	Mod+C { center-column; }
+
+	// Consume/expel windows (for column width management)
+	Mod+Comma { consume-window-into-column; }
+	Mod+Period { expel-window-from-column; }
+
+	// Switch preset column widths
+	Mod+R { switch-preset-column-width; }
+
+	// Reset window height
+	Mod+Shift+R { reset-window-height; }
+
+	// ============ Workspaces ============
+	// Focus workspace by number (1-10)
+	Mod+1 { focus-workspace 1; }
+	Mod+2 { focus-workspace 2; }
+	Mod+3 { focus-workspace 3; }
+	Mod+4 { focus-workspace 4; }
+	Mod+5 { focus-workspace 5; }
+	Mod+6 { focus-workspace 6; }
+	Mod+7 { focus-workspace 7; }
+	Mod+8 { focus-workspace 8; }
+	Mod+9 { focus-workspace 9; }
+	Mod+0 { focus-workspace 10; }
+
+	// Move window to workspace (1-10)
+	Mod+Alt+1 { move-column-to-workspace 1; }
+	Mod+Alt+2 { move-column-to-workspace 2; }
+	Mod+Alt+3 { move-column-to-workspace 3; }
+	Mod+Alt+4 { move-column-to-workspace 4; }
+	Mod+Alt+5 { move-column-to-workspace 5; }
+	Mod+Alt+6 { move-column-to-workspace 6; }
+	Mod+Alt+7 { move-column-to-workspace 7; }
+	Mod+Alt+8 { move-column-to-workspace 8; }
+	Mod+Alt+9 { move-column-to-workspace 9; }
+	Mod+Alt+0 { move-column-to-workspace 10; }
+
+	// Focus workspace relative
+	Mod+Ctrl+Left { focus-workspace-previous; }
+	Mod+Ctrl+Right { focus-workspace-next; }
+	Mod+Page_Up { focus-workspace-previous; }
+	Mod+Page_Down { focus-workspace-next; }
+
+	// Move to workspace relative
+	Mod+Shift+Page_Up { move-column-to-workspace-previous; }
+	Mod+Shift+Page_Down { move-column-to-workspace-next; }
+
+	// Focus column first/last
+	Mod+Home { focus-column-first; }
+	Mod+End { focus-column-last; }
+
+	// Move column to first/last
+	Mod+Shift+Home { move-column-to-first; }
+	Mod+Shift+End { move-column-to-last; }
+
+	// ============ Monitor ============
+	// Focus monitor
+	Mod+Shift+Left { focus-monitor-left; }
+	Mod+Shift+Right { focus-monitor-right; }
+	Mod+Shift+Up { focus-monitor-up; }
+	Mod+Shift+Down { focus-monitor-down; }
+
+	// Move column to monitor
+	Mod+Shift+Ctrl+Left { move-column-to-monitor-left; }
+	Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+	Mod+Shift+Ctrl+Up { move-column-to-monitor-up; }
+	Mod+Shift+Ctrl+Down { move-column-to-monitor-down; }
+
+	// ============ Media Keys ============
+	// Brightness
+	// Handled by Quickshell or brightnessctl directly
+	XF86MonBrightnessUp { spawn "brightnessctl" "s" "5%+"; }
+	XF86MonBrightnessDown { spawn "brightnessctl" "s" "5%-"; }
+
+	// Volume
+	XF86AudioRaiseVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "2%+" "-l" "1.5"; }
+	XF86AudioLowerVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "2%-"; }
+	XF86AudioMute { spawn "wpctl" "set-mute" "@DEFAULT_SINK@" "toggle"; }
+	XF86AudioMicMute { spawn "wpctl" "set-mute" "@DEFAULT_SOURCE@" "toggle"; }
+	Mod+Shift+M { spawn "wpctl" "set-mute" "@DEFAULT_SINK@" "toggle"; }
+	Mod+Alt+M { spawn "wpctl" "set-mute" "@DEFAULT_SOURCE@" "toggle"; }
+
+	// Media playback
+	XF86AudioPlay { spawn "playerctl" "play-pause"; }
+	XF86AudioPause { spawn "playerctl" "play-pause"; }
+	XF86AudioNext { spawn "playerctl" "next"; }
+	XF86AudioPrev { spawn "playerctl" "previous"; }
+	Mod+Shift+P { spawn "playerctl" "play-pause"; }
+	Mod+Shift+N { spawn "playerctl" "next"; }
+	Mod+Shift+B { spawn "playerctl" "previous"; }
+
+	// ============ Session ============
+	// Lock screen
+	Mod+L { spawn "loginctl" "lock-session"; }
+
+	// Suspend
+	Mod+Shift+L { spawn "systemctl" "suspend"; }
+
+	// ============ Apps ============
+	// Terminal
+	Mod+Return { spawn "bash" "-c" "~/.config/niri/scripts/launch_first_available.sh 'kitty -1' 'foot' 'alacritty' 'wezterm' 'konsole' 'kgx' 'uxterm' 'xterm'"; }
+	Mod+T { spawn "bash" "-c" "~/.config/niri/scripts/launch_first_available.sh 'kitty -1' 'foot' 'alacritty' 'wezterm' 'konsole' 'kgx' 'uxterm' 'xterm'"; }
+	Mod+Ctrl+Alt+T { spawn "bash" "-c" "~/.config/niri/scripts/launch_first_available.sh 'kitty -1' 'foot' 'alacritty' 'wezterm' 'konsole' 'kgx' 'uxterm' 'xterm'"; }
+
+	// File manager
+	Mod+E { spawn "bash" "-c" "~/.config/niri/scripts/launch_first_available.sh 'dolphin' 'nautilus' 'nemo' 'thunar' 'kitty -1 fish -c yazi'"; }
+
+	// Browser
+	Mod+W { spawn "bash" "-c" "~/.config/niri/scripts/launch_first_available.sh 'google-chrome-stable' 'zen-browser' 'firefox' 'brave' 'chromium' 'microsoft-edge-stable' 'opera' 'librewolf'"; }
+
+	// Code editor
+	Mod+C { spawn "bash" "-c" "~/.config/niri/scripts/launch_first_available.sh 'antigravity' 'code' 'codium' 'cursor' 'zed' 'zedit' 'zeditor' 'kate' 'gnome-text-editor' 'emacs'"; }
+
+	// Text editor
+	Mod+X { spawn "bash" "-c" "~/.config/niri/scripts/launch_first_available.sh 'kate' 'gnome-text-editor' 'emacs'"; }
+
+	// Volume mixer
+	Mod+Ctrl+V { spawn "bash" "-c" "~/.config/niri/scripts/launch_first_available.sh 'pavucontrol-qt' 'pavucontrol'"; }
+
+	// Settings
+	Mod+I { spawn "bash" "-c" "~/.config/niri/scripts/launch_first_available.sh 'qs -p ~/.config/quickshell/ii/settings.qml' 'systemsettings' 'gnome-control-center' 'better-control'"; }
+
+	// Task manager
+	Mod+Ctrl+Shift+Escape { spawn "bash" "-c" "~/.config/niri/scripts/launch_first_available.sh 'gnome-system-monitor' 'plasma-systemmonitor --page-name Processes' 'kitty -1 fish -c btop'"; }
+
+	// ============ Mouse bindings ============
+	// Note: Niri handles mouse bindings differently
+	// Mod+LeftClick drag -> move window (built-in)
+	// Mod+RightClick drag -> resize window (built-in)
+
+	// ============ Zoom ============
+	// Niri doesn't have built-in zoom like Hyprland
+	// Use wlr-randr or a magnifier tool instead
+	Mod+Minus { spawn "bash" "-c" "~/.config/niri/scripts/zoom.sh decrease"; }
+	Mod+Equal { spawn "bash" "-c" "~/.config/niri/scripts/zoom.sh increase"; }
+
+	// ============ Overview ============
+	Mod+O { toggle-overview; }
+
+	// ============ Quit ============
+	Mod+Shift+E { quit; }
+}

@@ -233,9 +233,13 @@ fi
 v gen_firstrun
 v dedup_and_sort_listfile "${INSTALLED_LISTFILE}" "${INSTALLED_LISTFILE}"
 
-# Prevent hyprland from not fully loaded
+# Prevent compositor from not fully loaded
 sleep 1
-try hyprctl reload
+if [[ "${WITH_NIRI}" == true ]]; then
+  try niri msg action reload-config
+else
+  try hyprctl reload
+fi
 
 #####################################################################################
 printf "\n"
@@ -243,16 +247,31 @@ printf "\n"
 printf "\n"
 printf "${STY_CYAN}[$0]: Finished${STY_RST}\n"
 printf "\n"
-printf "${STY_CYAN}When starting Hyprland from your display manager (login screen) ${STY_RED} DO NOT SELECT UWSM ${STY_RST}\n"
-printf "\n"
-printf "${STY_CYAN}If you are already running Hyprland,${STY_RST}\n"
-printf "${STY_CYAN}Press ${STY_INVERT} Ctrl+Super+T ${STY_RST}${STY_CYAN} to select a wallpaper${STY_RST}\n"
-printf "${STY_CYAN}Press ${STY_INVERT} Super+/ ${STY_RST}${STY_CYAN} for a list of keybinds${STY_RST}\n"
+
+if [[ "${WITH_NIRI}" == true ]]; then
+  printf "${STY_CYAN}When starting Niri from your display manager (login screen)${STY_RST}\n"
+  printf "\n"
+  printf "${STY_CYAN}If you are already running Niri,${STY_RST}\n"
+  printf "${STY_CYAN}Press ${STY_INVERT} Ctrl+Super+T ${STY_RST}${STY_CYAN} to select a wallpaper${STY_RST}\n"
+  printf "${STY_CYAN}Press ${STY_INVERT} Super+/ ${STY_RST}${STY_CYAN} for a list of keybinds${STY_RST}\n"
+else
+  printf "${STY_CYAN}When starting Hyprland from your display manager (login screen) ${STY_RED} DO NOT SELECT UWSM ${STY_RST}\n"
+  printf "\n"
+  printf "${STY_CYAN}If you are already running Hyprland,${STY_RST}\n"
+  printf "${STY_CYAN}Press ${STY_INVERT} Ctrl+Super+T ${STY_RST}${STY_CYAN} to select a wallpaper${STY_RST}\n"
+  printf "${STY_CYAN}Press ${STY_INVERT} Super+/ ${STY_RST}${STY_CYAN} for a list of keybinds${STY_RST}\n"
+fi
+
 printf "\n"
 printf "${STY_CYAN}For suggestions/hints after installation:${STY_RST}\n"
 printf "${STY_CYAN}${STY_UNDERLINE} https://ii.clsty.link/en/ii-qs/01setup/#post-installation ${STY_RST}\n"
 printf "\n"
 
 if [[ -z "${ILLOGICAL_IMPULSE_VIRTUAL_ENV}" ]]; then
-  printf "\n${STY_RED}[$0]: \!! Important \!! : Please ensure environment variable ${STY_RST} \$ILLOGICAL_IMPULSE_VIRTUAL_ENV ${STY_RED} is set to proper value (by default \"~/.local/state/quickshell/.venv\"), or Quickshell config will not work. We have already provided this configuration in ~/.config/hypr/hyprland/env.conf, but you need to ensure it is included in hyprland.conf, and also a restart is needed for applying it.${STY_RST}\n"
+  printf "\n${STY_RED}[$0]: \!! Important \!! : Please ensure environment variable ${STY_RST} \$ILLOGICAL_IMPULSE_VIRTUAL_ENV ${STY_RED} is set to proper value (by default \"~/.local/state/quickshell/.venv\"), or Quickshell config will not work.${STY_RST}\n"
+  if [[ "${WITH_NIRI}" == true ]]; then
+    printf "${STY_CYAN}We have provided this configuration in ~/.config/niri/config.kdl, and also a restart is needed for applying it.${STY_RST}\n"
+  else
+    printf "${STY_CYAN}We have already provided this configuration in ~/.config/hypr/hyprland/env.conf, but you need to ensure it is included in hyprland.conf, and also a restart is needed for applying it.${STY_RST}\n"
+  fi
 fi

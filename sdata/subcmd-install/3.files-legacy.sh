@@ -4,11 +4,11 @@
 # shellcheck shell=bash
 
 #####################################################################################
-# MISC (For dots/.config/* but not quickshell, not fish, not Hyprland, not fontconfig)
+# MISC (For dots/.config/* but not quickshell, not fish, not Hyprland, not Niri, not fontconfig)
 case "${SKIP_MISCCONF}" in
   true) sleep 0;;
   *)
-    for i in $(find dots/.config/ -mindepth 1 -maxdepth 1 ! -name 'quickshell' ! -name 'fish' ! -name 'hypr' ! -name 'fontconfig' -exec basename {} \;); do
+    for i in $(find dots/.config/ -mindepth 1 -maxdepth 1 ! -name 'quickshell' ! -name 'fish' ! -name 'hypr' ! -name 'niri' ! -name 'fontconfig' -exec basename {} \;); do
 #      i="dots/.config/$i"
       echo "[$0]: Found target: dots/.config/$i"
       if [ -d "dots/.config/$i" ];then install_dir__sync "dots/.config/$i" "$XDG_CONFIG_HOME/$i"
@@ -73,3 +73,45 @@ case "${SKIP_HYPRLAND}" in
 esac
 
 install_file "dots/.local/share/icons/illogical-impulse.svg" "${XDG_DATA_HOME}"/icons/illogical-impulse.svg
+
+# For Niri
+case "${SKIP_NIRI}" in
+  true) sleep 0;;
+  *)
+    if [[ "${WITH_NIRI}" == true ]]; then
+      echo "[$0]: Installing Niri configuration..."
+      install_dir__sync dots/.config/niri "$XDG_CONFIG_HOME"/niri
+
+      # Install Niri-specific Quickshell files (overwrite Hyprland versions)
+      echo "[$0]: Installing Niri-specific Quickshell files..."
+
+      # Backup and replace shell.qml
+      if [ -f "$XDG_CONFIG_HOME/quickshell/ii/shell.qml" ]; then
+        install_file__auto_backup "dots/.config/quickshell/ii/shell-niri.qml" "$XDG_CONFIG_HOME/quickshell/ii/shell.qml"
+      else
+        install_file "dots/.config/quickshell/ii/shell-niri.qml" "$XDG_CONFIG_HOME/quickshell/ii/shell.qml"
+      fi
+
+      # Backup and replace GlobalStates.qml
+      if [ -f "$XDG_CONFIG_HOME/quickshell/ii/GlobalStates.qml" ]; then
+        install_file__auto_backup "dots/.config/quickshell/ii/GlobalStates-niri.qml" "$XDG_CONFIG_HOME/quickshell/ii/GlobalStates.qml"
+      else
+        install_file "dots/.config/quickshell/ii/GlobalStates-niri.qml" "$XDG_CONFIG_HOME/quickshell/ii/GlobalStates.qml"
+      fi
+
+      # Install Niri service files
+      for svc in NiriData.qml NiriConfig.qml NiriXkb.qml NiriKeybinds.qml NightLight.qml NiriFocusGrab.qml; do
+        if [ -f "dots/.config/quickshell/ii/services/$svc" ]; then
+          install_file "dots/.config/quickshell/ii/services/$svc" "$XDG_CONFIG_HOME/quickshell/ii/services/$svc"
+        fi
+      done
+
+      # Install Niri UI components
+      install_file "dots/.config/quickshell/ii/modules/ii/bar/Workspaces-niri.qml" "$XDG_CONFIG_HOME/quickshell/ii/modules/ii/bar/Workspaces.qml"
+      install_file "dots/.config/quickshell/ii/modules/ii/cheatsheet/CheatsheetKeybinds-niri.qml" "$XDG_CONFIG_HOME/quickshell/ii/modules/ii/cheatsheet/CheatsheetKeybinds.qml"
+      install_file "dots/.config/quickshell/ii/modules/ii/overview/Overview-niri.qml" "$XDG_CONFIG_HOME/quickshell/ii/modules/ii/overview/Overview.qml"
+
+      echo "[$0]: Niri configuration installed successfully."
+    fi
+    ;;
+esac

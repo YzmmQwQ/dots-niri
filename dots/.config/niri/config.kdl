@@ -1,0 +1,160 @@
+// illogical-impulse Niri configuration
+// Migrated from Hyprland config
+
+// Import keybinds and window rules
+include "keybinds.kdl"
+include "window-rules.kdl"
+
+// ============ Environment ============
+// Set environment variables via spawn-at-startup
+spawn-at-startup "bash" "-c" "export ELECTRON_OZONE_PLATFORM_HINT=auto"
+spawn-at-startup "bash" "-c" "export QT_QPA_PLATFORM=wayland;xcb"
+spawn-at-startup "bash" "-c" "export QT_QPA_PLATFORMTHEME=kde"
+spawn-at-startup "bash" "-c" "export XDG_MENU_PREFIX=plasma-"
+spawn-at-startup "bash" "-c" "export ILLOGICAL_IMPULSE_VIRTUAL_ENV=~/.local/state/quickshell/.venv"
+
+// ============ Input ============
+input {
+	keyboard {
+		xkb {
+			layout "us"
+		}
+		numlock
+		repeat-delay 250
+		repeat-rate 35
+	}
+
+	touchpad {
+		tap
+		natural-scroll
+		dwt
+		clickfinger-behavior
+		scroll-factor 0.7
+	}
+
+	mouse {
+		natural-scroll
+	}
+
+	trackpoint {
+		natural-scroll
+	}
+}
+
+// ============ Outputs ============
+// Default output configuration
+// Use `niri msg outputs` to find output names
+// Uncomment and modify for your setup:
+// output "eDP-1" {
+//     mode "1920x1080@60"
+//     scale 1.0
+//     transform "normal"
+// }
+
+// ============ Layout ============
+layout {
+	gaps 8
+	center-focused-column "never"
+
+	preset-column-widths {
+		proportion 0.33333
+		proportion 0.5
+		proportion 0.66667
+	}
+
+	default-column-width { proportion 0.5; }
+
+	focus-ring {
+		width 1
+		// Colors will be set by matugen
+		active-color "#0DB7D4"
+		inactive-color "#313136"
+	}
+
+	border {
+		on
+		width 1
+		active-color "#0DB7D4"
+		inactive-color "#31313600"
+	}
+
+	// NOTE: Blur is in development branch, will be available in future releases
+	// When available, blur can be configured here:
+	// blur {
+	//     radius 10
+	// }
+
+	shadow {
+		softness 20
+		spread 5
+		offset x=0 y=2
+		color "#00000020"
+	}
+
+	struts { }
+}
+
+// ============ Animations ============
+animations {
+	// Niri has built-in smooth animations
+	// Slowdown factor (1.0 = normal speed)
+	slowdown 1.0
+}
+
+// ============ Gestures ============
+gestures {
+	// 3-finger swipe to move windows
+	dnd-drag-finger 3
+
+	// Swipe to switch workspaces
+	swipe-min-fingers 3
+	swipe-min-distance 100
+}
+
+// ============ Misc ============
+// Cursor
+cursor {
+	xcursor-theme "Bibata-Modern-Classic"
+	xcursor-size 24
+	hide-on-key-press
+	hide-on-touch
+}
+
+// Prefer no csd
+prefer-no-csd
+
+// Disable tablet cursor
+tablet {
+	map-to-output "eDP-1"
+}
+
+// ============ Spawn at startup ============
+// Core components
+spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
+spawn-at-startup "dbus-update-activation-environment" "--all"
+spawn-at-startup "bash" "-c" "sleep 1 && dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+
+// Quickshell bar
+spawn-at-startup "bash" "-c" "qs -c ii &"
+
+// Geoclue agent for location services
+spawn-at-startup "~/.config/niri/scripts/start_geoclue_agent.sh"
+
+// Restore video wallpaper if any
+spawn-at-startup "~/.config/niri/scripts/restore_video_wallpaper.sh"
+
+// Audio
+spawn-at-startup "easyeffects" "--hide-window" "--service-mode"
+
+// Clipboard
+spawn-at-startup "bash" "-c" "wl-paste --type text --watch bash -c 'cliphist store && qs -c ii ipc call cliphistService update'"
+spawn-at-startup "bash" "-c" "wl-paste --type image --watch bash -c 'cliphist store && qs -c ii ipc call cliphistService update'"
+
+// Idle manager (use hypridle as it works with any Wayland compositor)
+spawn-at-startup "hypridle"
+
+// ============ Named Workspaces ============
+// Niri uses a scrollable strip, but you can name workspaces for easier reference
+// workspace "main" {}
+// workspace "code" {}
+// workspace "browser" {}

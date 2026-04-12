@@ -1,0 +1,225 @@
+// illogical-impulse Niri window rules
+// Migrated from Hyprland rules.conf
+
+// ============ Layer Rules ============
+// NOTE: Blur is in development branch, will be available in future releases
+// When available, layer blur rules can be configured:
+// layer-rule {
+//     match namespace="quickshell:.*"
+//     blur on
+// }
+
+// ============ Floating Windows ============
+// File dialogs
+window-rule {
+	match app-id=r#"^()$"# title=r#"^Open File"#
+	open-floating true
+}
+
+window-rule {
+	match app-id=r#"^()$"# title=r#"^Select a File"#
+	open-floating true
+}
+
+window-rule {
+	match app-id=r#"^()$"# title=r#"^Choose wallpaper"#
+	open-floating true
+	default-floating-width 1152
+	default-floating-height 675
+}
+
+window-rule {
+	match app-id=r#"^()$"# title=r#"^Open Folder"#
+	open-floating true
+}
+
+window-rule {
+	match app-id=r#"^()$"# title=r#"^Save As"#
+	open-floating true
+}
+
+window-rule {
+	match app-id=r#"^()$"# title=r#"^Library"#
+	open-floating true
+}
+
+window-rule {
+	match app-id=r#"^()$"# title=r#"^File Upload"#
+	open-floating true
+}
+
+window-rule {
+	match app-id=r#"^()$"# title=r#"(wants to save)$"#
+	open-floating true
+}
+
+window-rule {
+	match app-id=r#"^()$"# title=r#"(wants to open)$"#
+	open-floating true
+}
+
+// System apps
+window-rule {
+	match app-id="blueberry.py"
+	open-floating true
+}
+
+window-rule {
+	match app-id="guifetch"
+	open-floating true
+}
+
+window-rule {
+	match app-id="pavucontrol"
+	open-floating true
+	default-floating-width 800
+	default-floating-height 600
+}
+
+window-rule {
+	match app-id="org.pulseaudio.pavucontrol"
+	open-floating true
+	default-floating-width 800
+	default-floating-height 600
+}
+
+window-rule {
+	match app-id="nm-connection-editor"
+	open-floating true
+	default-floating-width 800
+	default-floating-height 600
+}
+
+window-rule {
+	match app-id=r#".*plasmawindowed.*"#
+	open-floating true
+}
+
+window-rule {
+	match app-id=r#"kcm_.*"#
+	open-floating true
+}
+
+window-rule {
+	match app-id=r#".*bluedevilwizard"#
+	open-floating true
+}
+
+window-rule {
+	match title=r#".*Welcome"#
+	open-floating true
+}
+
+window-rule {
+	match title="illogical-impulse Settings"
+	open-floating true
+}
+
+window-rule {
+	match title=r#".*Shell conflicts.*"#
+	open-floating true
+}
+
+window-rule {
+	match app-id="org.freedesktop.impl.portal.desktop.kde"
+	open-floating true
+	default-floating-width 1152
+	default-floating-height 675
+}
+
+window-rule {
+	match app-id="Zotero"
+	open-floating true
+	default-floating-width 800
+	default-floating-height 600
+}
+
+// KDE/Plasma tools (spawned for theme changes)
+window-rule {
+	match app-id="plasma-changeicons"
+	open-floating true
+}
+
+// ============ Picture-in-Picture ============
+window-rule {
+	match title=r#"^([Pp]icture[-\s]?[Ii]n[-\s]?[Pp]icture)"#
+	open-floating true
+	default-floating-width 480
+	default-floating-height 270
+}
+
+// ============ Screen Sharing Indicators ============
+window-rule {
+	match title=r#".*is sharing (a window|your screen).*"#
+	open-floating true
+}
+
+// ============ Tiling ============
+// Force tiling for specific apps
+window-rule {
+	match app-id="dev.warp.Warp"
+	open-on-workspace "default"
+}
+
+// ============ JetBrains IDEs ============
+// Fix focus/rerendering problem - block empty titled windows
+window-rule {
+	match app-id=r#"^jetbrains-.*$"# title=r#"^$|^\s$|^win\d+$"#
+	block-out-from "screencast"
+}
+
+// ============ Gaming ============
+// Note: Niri handles tearing differently
+// For games that need immediate mode, they should work automatically
+window-rule {
+	match title=r#".*\.exe"#
+}
+
+window-rule {
+	match title=r#".*minecraft.*"#
+}
+
+window-rule {
+	match app-id=r#"^(steam_app).*$"#
+}
+
+// ============ Default Column Width ============
+// Set default width for specific apps
+window-rule {
+	match app-id="firefox"
+	default-column-width { proportion 0.5; }
+}
+
+window-rule {
+	match app-id="google-chrome"
+	default-column-width { proportion 0.5; }
+}
+
+window-rule {
+	match app-id="code"
+	default-column-width { proportion 0.6; }
+}
+
+window-rule {
+	match app-id="codium"
+	default-column-width { proportion 0.6; }
+}
+
+window-rule {
+	match app-id="zed"
+	default-column-width { proportion 0.6; }
+}
+
+// ============ Draw over other windows ============
+// For apps that should be drawn over fullscreen windows
+window-rule {
+	match app-id="com.github.Aylur.ags"
+	draw-border-with-background false
+}
+
+// ============ Focus stealing prevention ============
+// Prevent certain windows from stealing focus
+window-rule {
+	match app-id="plasma-changeicons"
+	open-focused false
+}
