@@ -1,5 +1,4 @@
 // illogical-impulse Niri configuration
-// Migrated from Hyprland config
 
 // Import keybinds and window rules
 include "keybinds.kdl"
